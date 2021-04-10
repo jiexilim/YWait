@@ -2,7 +2,7 @@
   <div>
     <NavBar></NavBar>
     <div id="wrapper">
-    <h1>Malls</h1>
+    <h1>Haha</h1>
       <ul id="malls">
         <li class="mall-items" v-for="mall in mallsList" v-bind:key="mall.id">
           <h2>{{ mall.mallName }}</h2>
