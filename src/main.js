@@ -10,6 +10,8 @@ import VueRouter from 'vue-router'
 import Routes from './routes.js'
 import { MapInstaller } from '@progress/kendo-map-vue-wrapper'
 import { auth } from './firebase.js'
+import 'zingchart/es6';
+import zingchartVue from 'zingchart-vue';
 
 Vue.config.productionTip = false
 
@@ -20,6 +22,7 @@ Vue.component('Login', Login)
 Vue.component('LogOutButton', LogOutButton)
 Vue.use(VueRouter)
 Vue.use(MapInstaller)
+Vue.component('zingchart', zingchartVue)
 
 const myRouter = new VueRouter({
   routes: Routes,

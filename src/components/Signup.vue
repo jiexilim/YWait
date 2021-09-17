@@ -31,6 +31,7 @@
             id="contact"
             v-model="contact"
             placeholder="Contact Number"
+            pattern="[7-9]{1}[0-9]{7}"
             required
           />
         </p>

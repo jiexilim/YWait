@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Rating :clearable="true" @rating-selected="setRating" />
+    <Rating :clearable="true" :show-rating="false" @rating-selected="setRating" />
   </div>
 </template>
 

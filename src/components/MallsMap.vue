@@ -6,7 +6,7 @@
         <kendo-map
           :center="[1.3051315545985274, 103.83224131197983]"
           :zoom="12"
-          style="width: 100%; height: 500px; margin-left: 35px"
+          style="width: 100%; height: 470px; margin-left: 35px"
         >
           <kendo-map-layer
             :type="'tile'"

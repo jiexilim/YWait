@@ -18,65 +18,6 @@
           <button v-on:click="change()">Change Password</button>
         </div>
       </div>
-      <br />
-
-      <h2 v-if="this.editProfile == false && this.changePassword == false">
-        Current Queue Details
-      </h2>
-      <div
-        id="currentQueue"
-        v-if="this.editProfile == false && this.changePassword == false"
-      >
-        <div id="currentQueueDetails" v-if="this.waitingRestaurant != ''">
-          <p>
-            Please arrive at {{ this.waitingRestaurant }} @
-            {{ this.waitingMall }} by {{ this.arrivalTime }}.
-          </p>
-          <p>Details:</p>
-          <span>No. of Pax (Adult): {{ this.numOfAdult }}</span
-          ><br />
-          <span>No. of Pax (Children): {{ this.numOfChildren }}</span
-          ><br />
-          <span>Baby Chair: {{ this.babychair }}</span
-          ><br />
-          <span>Wheelchair: {{ this.wheelchair }} </span><br />
-        </div>
-        <div id="currentQueueDetails" v-if="this.waitingRestaurant == ''">
-          <p class="notInQ">
-            Currently not in any queue. Click on 'Join a Queue' to join a queue.
-          </p>
-        </div>
-      </div>
-      <p
-        class="note"
-        v-if="this.editProfile == false && this.changePassword == false"
-      >
-        Note: Full party must be present to be seated. <br />
-        The queue seatings will be given up if you are late due to limited
-        seating capacity.
-      </p>
-
-      <h2 v-if="this.editProfile == false && this.changePassword == false">
-        Queue History
-      </h2>
-      <div
-        id="queueHistory"
-        v-if="this.editProfile == false && this.changePassword == false"
-      >
-        <div id="queueHistoryDetails">
-          <ul>
-            <li v-for="booking in history" v-bind:key="booking.id" class="queueHistory">
-              <span class="historyRestaurantMall">{{ booking.restaurantMall }}</span>
-              <rating
-                @updateRating="ratingUpdated"
-                v-bind:restaurantId="booking.restaurantId"
-              ></rating>
-              <button class="rate" v-on:click="rate()">Rate</button>
-            </li>
-            <br />
-          </ul>
-        </div>
-      </div>
 
       <div
         id="editProfile"
@@ -86,39 +27,42 @@
           <profileIcon :size="200" />
         </div>
         <div id="editDetails">
-          <p class="editDetails">
-            <input
-              input
-              type="text"
-              name="name"
-              id="name"
-              v-model="name"
-              placeholder="Name"
-              required
-            />
-          </p>
-          <p class="editDetails">
-            <input
-              type="tel"
-              name="contact"
-              id="contact"
-              v-model="contact"
-              placeholder="Contact Number"
-              required
-            />
-          </p>
-          <p class="editDetails">
-            <input
-              type="date"
-              name="dob"
-              id="dob"
-              v-model="dob"
-              placeholder="Date of Birth"
-              required
-            />
-          </p>
-          <button v-on:click="edit()">Save</button>
-          <button v-on:click="cancel()">Cancel</button>
+          <form @submit="edit()">
+            <p class="editDetails">
+              <input
+                input
+                type="text"
+                name="name"
+                id="name"
+                v-model="name"
+                placeholder="Name"
+                required
+              />
+            </p>
+            <p class="editDetails">
+              <input
+                type="tel"
+                name="contact"
+                id="contact"
+                v-model="contact"
+                placeholder="Contact Number"
+                pattern="[7-9]{1}[0-9]{7}"
+                required
+              />
+            </p>
+            <p class="editDetails">
+              <input
+                type="date"
+                name="dob"
+                id="dob"
+                v-model="dob"
+                placeholder="Date of Birth"
+                required
+              />
+            </p>
+            <button type="submit">Save</button>
+            <button type="button" v-on:click="cancel()">Cancel</button>
+          </form>
         </div>
       </div>
 
@@ -162,6 +106,61 @@
           </p>
           <button v-on:click="change()">Save</button>
           <button v-on:click="cancel()">Cancel</button>
+        </div>
+      </div>
+
+      <h2>
+        Current Queue Details
+      </h2>
+      <div id="currentQueue">
+        <div id="currentQueueDetails" v-if="this.waitingRestaurant != ''">
+          <p>
+            Please arrive at {{ this.waitingRestaurant }} @
+            {{ this.waitingMall }} by {{ this.arrivalTime }}.
+          </p>
+          <p>Details:</p>
+          <span>Number of Pax (Adult): {{ this.numOfAdult }}</span
+          ><br />
+          <span>Number of Pax (Children): {{ this.numOfChildren }}</span
+          ><br />
+          <span>Number of Baby Chair(s): {{ this.babychair }}</span
+          ><br />
+          <span>Number of Wheelchair(s): {{ this.wheelchair }} </span><br />
+        </div>
+        <div id="currentQueueDetails" v-if="this.waitingRestaurant == ''">
+          <p class="notInQ">
+            Currently not in any queue. Click on 'Join a Queue' to join a queue.
+          </p>
+        </div>
+      </div>
+      <p class="note">
+        Note: Full party must be present to be seated. <br />
+        The queue seatings will be given up if you are late due to limited
+        seating capacity.
+      </p>
+
+      <h2>
+        Queue History
+      </h2>
+      <div id="queueHistory">
+        <div id="queueHistoryDetails">
+          <ul>
+            <li
+              v-for="booking in history"
+              v-bind:key="booking.id"
+              class="queueHistory"
+            >
+              <span class="historyRestaurantMall">{{
+                booking.restaurantMall
+              }}</span>
+              <rating
+                @updateRating="ratingUpdated"
+                v-bind:restaurantId="booking.restaurantId"
+              ></rating>
+              <button class="rate" v-on:click="rate()">Rate</button>
+            </li>
+            <br />
+          </ul>
         </div>
       </div>
     </div>
@@ -244,41 +243,45 @@ export default {
       if (this.changePassword == false) {
         this.changePassword = true;
       } else {
-        this.reauthenticate(this.oldPassword)
-          .then(() => {
-            if (this.newPassword.length < 6) {
-              alert(
-                "Password must contain at least 6 characters. Please check your password and try again."
-              );
-            } else if (this.newPassword != this.confirmPassword) {
-              alert(
-                "Passwords do not match. Please check your password and try again."
-              );
-            } else {
-              auth.currentUser.updatePassword(this.newPassword).then(() => {
-                alert("Password successfully changed.");
-                this.changePassword = false;
-                this.editProfile = false;
-              });
-            }
-          })
-          .catch((error) => {
-            if (error.code == "auth/wrong-password") {
-              alert(
-                "The current password you entered is wrong. Please check your current password and try again."
-              );
-            }
-          });
+        if (
+          this.oldPassword == null ||
+          this.newPassword == null ||
+          this.confirmPassword == null
+        ) {
+          alert("Please fill out all the fields and try again.");
+        } else {
+          this.reauthenticate(this.oldPassword)
+            .then(() => {
+              if (this.newPassword.length < 6) {
+                alert(
+                  "Password must contain at least 6 characters. Please check your password and try again."
+                );
+              } else if (this.newPassword != this.confirmPassword) {
+                alert(
+                  "Passwords do not match. Please check your password and try again."
+                );
+              } else {
+                auth.currentUser.updatePassword(this.newPassword).then(() => {
+                  alert("Password successfully changed.");
+                  this.changePassword = false;
+                  this.editProfile = false;
+                });
+              }
+            })
+            .catch((error) => {
+              if (error.code == "auth/wrong-password") {
+                alert(
+                  "The current password you entered is wrong. Please check your current password and try again."
+                );
+              }
+            });
+        }
       }
     },
     cancel() {
-      if (this.editProfile == true) {
-        this.editProfile = false;
-        this.changePassword = false;
-      } else {
-        this.changePassword = false;
-        this.editProfile = false;
-      }
+      this.editProfile = false;
+      this.changePassword = false;
+      this.fetchItems();
     },
     getCurrentAndHist() {
       database
@@ -376,7 +379,7 @@ export default {
   width: 800px;
   border-radius: 10px;
   margin-left: 10px;
-  margin-top: 3px;
+  margin-top: 30px;
 }
 #editDetails {
   margin-top: 20px;
@@ -393,7 +396,7 @@ export default {
   width: 800px;
   border-radius: 10px;
   margin-left: 10px;
-  margin-top: 3px;
+  margin-top: 30px;
 }
 #editPassword {
   margin-top: 20px;
@@ -478,8 +481,7 @@ h2 {
   border-top: 3px solid #222;
   background-color: white;
   height: auto;
-  width: 1550px;
-  margin-left: auto;
+  width: 100%;
   margin-right: auto;
   margin-top: 30px;
   background-color: #eee;
@@ -491,15 +493,13 @@ h2 {
   padding-bottom: 10px;
 }
 p.note {
-  margin-left: 30px;
   font-style: italic;
 }
 #queueHistory {
   border-top: 3px solid #222;
   background-color: white;
   height: auto;
-  width: 1550px;
-  margin-left: auto;
+  width: 100%;
   margin-right: auto;
   margin-top: 30px;
   background-color: #eee;
@@ -519,6 +519,6 @@ button.rate {
 li.queueHistory {
   text-align: center;
   column-count: 3;
-  column-gap: 200px;
+  column-gap: 160px;
 }
 </style>

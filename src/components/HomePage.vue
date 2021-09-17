@@ -7,10 +7,12 @@
         <router-link to="/joinq" exact>Join a Queue Here!</router-link>
       </div>
       <p></p>
-      <div id="viewMalls">
-        <router-link to="/malls" exact>View Malls</router-link>
+      <div id="mallCalendar">
+        <div id="viewMalls">
+          <router-link to="/malls" exact>View Malls</router-link>
+        </div>
+        <Calendar id="calendar"></Calendar>
       </div>
-      <div id="calendar"><Calendar></Calendar></div>
     </div>
   </div>
 </template>
@@ -56,7 +58,7 @@ h1 {
 #joinQ {
   padding: 7px 25px;
   width: 95%;
-  height: 300px;
+  height: 350px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   background: url("../../images/home-page-dashboard.jpeg");
@@ -71,17 +73,22 @@ h1 {
   padding-top: 10px;
 }
 
+#mallCalendar {
+  display: flex;
+  height: 450px;
+}
+
 #viewMalls {
   display: inline-block;
   padding: 7px 25px;
   vertical-align: top;
-  width: 50%;
-  height: 500px;
+  width: 45%;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   background: url("../../images/home-page-view.jpeg");
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 100% 100%;
   color: white;
   font-weight: bold;
   text-align: left;
@@ -92,11 +99,10 @@ h1 {
 
 #calendar {
   display: inline-block;
-  padding: 0px 47px;
-  padding-left: 73px;
-  width: 36%;
-  height: 517px;
-  margin-left: 20px;
+  padding: 50px 25px;
+  width: 44.55%;
+  margin-left: 2%;
+
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
@@ -107,6 +113,10 @@ a {
 }
 
 a:visited {
+  color: white;
+}
+
+a:link {
   color: white;
 }
 

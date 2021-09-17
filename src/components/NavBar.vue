@@ -145,7 +145,7 @@ p.emailLink {
   color: blue;
 }
 div.logout {
-  margin-top: 30px;
+  margin-top: 5%;
 }
 ul {
   list-style-type: none;

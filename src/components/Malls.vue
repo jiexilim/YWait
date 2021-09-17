@@ -2,10 +2,12 @@
   <div>
     <NavBar></NavBar>
     <div id="wrapper">
-    <h1>Haha</h1>
+      <h1>Malls</h1>
       <ul id="malls">
         <li class="mall-items" v-for="mall in mallsList" v-bind:key="mall.id">
-          <h2>{{ mall.mallName }}</h2>
+          <button class="btn" v-on:click.prevent="route($event)" v-bind:id="mall.mallName">
+            <h2>{{ mall.mallName }}</h2>
+          </button>
           <h3>{{ mall.address }}</h3>
           <h3>Singapore {{ mall.postalCode }}</h3>
         </li>
@@ -33,7 +35,7 @@ export default {
   },
 
   methods: {
-    fetchItems: function () {
+    fetchItems: function() {
       database
         .collection("malls")
         .get()
@@ -47,6 +49,10 @@ export default {
           });
         });
     },
+    route: function(event) {
+      let mall_name = event.currentTarget.getAttribute("id");
+      this.$router.push({ name: "JoinQ", params: { id: mall_name } });
+    },
   },
 
   created() {
@@ -59,7 +65,24 @@ export default {
 h1 {
   font-size: 40px;
   font-weight: normal;
+  margin-bottom: -20px;
 }
+.btn {
+  border: none;
+  background-color: inherit;
+  padding: 10px 10px; 
+  padding-top: 0px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  height: 60px;
+}
+
+.btn:hover {
+  background: #eee;
+  text-decoration: underline;
+}
+
 #wrapper {
   display: block;
   margin-left: 300px;
@@ -73,6 +96,7 @@ h1 {
 
 h3 {
   font-weight: normal;
+  margin-bottom: 20px;
 }
 
 #malls {
@@ -88,7 +112,7 @@ h3 {
   flex-grow: 1;
   flex-basis: 300px;
   text-align: center;
-  padding-left: 50px;
+  padding-left: 40px;
   padding-right: 75px;
 }
 
